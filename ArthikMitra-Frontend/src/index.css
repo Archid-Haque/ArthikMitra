@@ -1,0 +1,31 @@
+/* ===== RESET ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ===== FULLSCREEN APP ===== */
+html, body, #root {
+  width: 100%;
+  min-height: 100vh;
+  background: #020617;
+  font-family: Inter, system-ui, Arial, sans-serif;
+}
+
+/* Remove Vite centering behaviour */
+body {
+  display: block;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Buttons */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}

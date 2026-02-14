@@ -1,0 +1,123 @@
+.learn-container {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+
+/* ===== PAGE LAYOUT ===== */
+.learn-page {
+  width: 100%;
+  min-height: 100vh;
+  background: #020617;
+  color: #E5E7EB;
+  padding: 70px 8%;
+  box-sizing: border-box;
+}
+
+/* Center content like Home page */
+.learn-page-inner {
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+/* ===== HEADER ===== */
+.learn-title {
+  font-size: clamp(32px, 4vw, 48px);
+  margin-bottom: 12px;
+  color: #FFFFFF;
+  letter-spacing: -0.5px;
+}
+
+.learn-subtitle {
+  color: #9CA3AF;
+  margin-bottom: 50px;
+  font-size: 18px;
+  max-width: 620px;
+  line-height: 1.6;
+}
+
+/* ===== MODULE GRID ===== */
+.module-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+/* ===== MODULE CARD ===== */
+.module-card {
+  background: linear-gradient(145deg, #111827, #020617);
+  border: 1px solid rgba(163,255,18,0.15);
+  border-radius: 18px;
+  padding: 26px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* subtle glow effect */
+.module-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, rgba(163,255,18,0.12), transparent 60%);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.module-card:hover::before {
+  opacity: 1;
+}
+
+.module-card:hover {
+  border-color: #A3FF12;
+  transform: translateY(-8px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+}
+
+/* ===== TEXT ===== */
+.module-title {
+  font-size: 20px;
+  color: #FFFFFF;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.module-text {
+  color: #9CA3AF;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* ===== BUTTON (optional but recommended) ===== */
+.module-btn {
+  margin-top: 18px;
+  padding: 10px 18px;
+  background: transparent;
+  border: 1px solid #A3FF12;
+  color: #A3FF12;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.module-btn:hover {
+  background: #A3FF12;
+  color: #020617;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .learn-page {
+    padding: 50px 6%;
+  }
+
+  .learn-subtitle {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .learn-page {
+    padding: 40px 5%;
+  }
+}

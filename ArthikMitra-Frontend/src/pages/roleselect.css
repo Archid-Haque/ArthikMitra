@@ -1,0 +1,63 @@
+.role-page {
+  min-height: 100vh;
+  background: #020617;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.back-btn {
+  position: absolute;
+  top: 30px;
+  left: 40px;
+  background: #A3FF12;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.role-heading {
+  font-size: 32px;
+  margin-bottom: 5px;
+}
+
+.role-heading span {
+  color: #A3FF12;
+}
+
+.role-sub {
+  color: #9CA3AF;
+  margin-bottom: 40px;
+}
+
+.role-grid {
+  display: flex;
+  gap: 40px;
+}
+
+.role-card {
+  width: 280px;
+  padding: 30px;
+  background: linear-gradient(145deg, #111827, #020617);
+  border: 1px solid rgba(163,255,18,0.2);
+  border-radius: 18px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.role-card:hover {
+  transform: translateY(-8px);
+  border-color: #A3FF12;
+}
+
+.role-card button {
+  margin-top: 20px;
+  background: transparent;
+  border: 1px solid #A3FF12;
+  color: #A3FF12;
+  padding: 8px 16px;
+  border-radius: 6px;
+}
