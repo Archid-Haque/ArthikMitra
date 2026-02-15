@@ -1,8 +1,13 @@
 import "./learn.css";
+import BackButton from "../components/BackButton";
+
 
 function Learn() {
   return (
     <div className="learn-page">
+
+<BackButton />
+
       <div className="learn-container">
 
         <h1 className="learn-title">Learning Modules</h1>

@@ -1,3 +1,7 @@
+body {
+  overflow: hidden;
+}
+
 /* ===== FULLSCREEN BASE ===== */
 html, body, #root {
   width: 100%;
@@ -6,47 +10,65 @@ html, body, #root {
   padding: 0;
 }
 
-/* Fullscreen layout */
+/* Page Wrapper */
 .home-page {
   width: 100%;
-  min-height: 100vh;   /* important: viewport height */
+  height: 100vh;          /* lock to screen height */
+  overflow: hidden;       /*  removes scroll */
   background: #020617;
   color: white;
-  display: flex;
-  align-items: center;
 }
 
+
+/* =======================================================
+                  HERO  SECTION  
+======================================================= */
+.hero-section {
+  height: 100vh;              /* lock to viewport */
+  display: flex;
+  align-items: flex-start;     /* move content upward */
+  padding-top: 110px;          /* controlled top spacing (magic value) */
+}
+
+
+
+
 /* Container */
-.home-hero {
+.hero-container {
   width: 100%;
-  padding: 80px 8%;
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 80px;
+  gap: 72px;
   box-sizing: border-box;
 }
 
+
+
 /* LEFT SIDE */
-.home-left {
+.hero-left {
   flex: 1;
-  min-width: 320px;
+  max-width: 560px;   /* locks readable width */
 }
 
-.home-tag {
+
+.hero-tag {
   color: #A3FF12;
   letter-spacing: 4px;
   font-size: 14px;
   margin-bottom: 20px;
 }
 
-.home-title {
+.hero-title {
   font-size: clamp(48px, 5vw, 88px);
   line-height: 1.05;
   margin: 0;
 }
 
-.home-subtitle {
+.hero-subtitle {
   color: #9CA3AF;
   margin-top: 24px;
   font-size: clamp(16px, 1.2vw, 20px);
@@ -54,7 +76,7 @@ html, body, #root {
   max-width: 540px;
 }
 
-.home-btn {
+.hero-btn {
   margin-top: 34px;
   padding: 16px 32px;
   background: #A3FF12;
@@ -66,17 +88,17 @@ html, body, #root {
 }
 
 /* RIGHT SIDE */
-.home-right {
+.hero-right {
   flex: 1;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;   /* pushes card to clean grid edge */
 }
 
 /* CARD */
-.home-card {
+.hero-card {
   width: 100%;
-  max-width: 460px;
-  padding: 50px;
+  max-width: 420px;
+  padding: 42px;
   border-radius: 20px;
   background: linear-gradient(145deg, #182848, #0f172a);
   border: 1px solid rgba(163,255,18,0.35);
@@ -93,7 +115,7 @@ html, body, #root {
 .card-amount-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;   /* pushes chip fully right */
+  justify-content: space-between;
   width: 100%;
 }
 
@@ -105,7 +127,7 @@ html, body, #root {
 .card-chip {
   width: 52px;
   height: auto;
-  margin-left: 40px;   /* extra push to the right */
+  margin-left: 40px;
 }
 
 .card-growth {
@@ -113,37 +135,83 @@ html, body, #root {
   margin-top: 18px;
 }
 
-/* ===== RESPONSIVE ===== */
+/* =======================================================
+   FEATURES SECTION (NEW — Appears AFTER SCROLL)
+======================================================= */
 
-/* Tablet */
+.features-section {
+  padding: 120px 8%;
+}
+
+.features-heading {
+  text-align: center;
+  font-size: clamp(32px, 4vw, 48px);
+  margin-bottom: 70px;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+}
+
+/* Feature Cards */
+.feature-card {
+  background: #0f172a;
+  padding: 40px;
+  border-radius: 18px;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: all 0.35s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-12px);
+  border-color: #A3FF12;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.feature-card h3 {
+  margin-bottom: 14px;
+  font-size: 22px;
+}
+
+.feature-card p {
+  color: #9CA3AF;
+  line-height: 1.6;
+}
+
+/* =======================================================
+   RESPONSIVE
+======================================================= */
+
 @media (max-width: 1024px) {
-  .home-hero {
+  .hero-container {
     gap: 40px;
   }
 
-  .home-title {
-    font-size: 56px;
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Mobile */
 @media (max-width: 768px) {
-  .home-hero {
+
+  .hero-container {
     flex-direction: column;
     text-align: center;
     padding: 60px 8%;
   }
 
-  .home-left {
-    align-items: center;
-  }
-
-  .home-right {
+  .hero-right {
     width: 100%;
     margin-top: 40px;
   }
 
-  .home-card {
+  .hero-card {
     max-width: 100%;
+  }
+
+  .features-grid {
+    grid-template-columns: 1fr;
   }
 }

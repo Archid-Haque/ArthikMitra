@@ -49,38 +49,62 @@ app.get("/api/session", authMiddleware, (req, res) => {
 // ==============================
 // GEMINI AI SETUP
 // ==============================
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+if (!process.env.GEMINI_API_KEY) {
+  throw new Error("❌ GEMINI_API_KEY missing in .env");
+}
+
+const genAI = new GoogleGenerativeAI({
+  apiKey: process.env.GEMINI_API_KEY,
+});
+
+
 
 app.get("/", (req, res) => {
   res.send("ArthikMitra Backend Running ✅");
 });
 
-app.post("/ask", async (req, res) => {
+app.post("/api/ai", async (req, res) => {
+  console.log("🔥 AI endpoint hit");
+
   try {
     const { question } = req.body;
+
+    if (!question) {
+      return res.status(400).json({ error: "Question is required" });
+    }
 
     const model = genAI.getGenerativeModel({
       model: "gemini-1.5-flash",
     });
 
-    const prompt = `
+    const result = await model.generateContent({
+      contents: [
+        {
+          role: "user",
+          parts: [
+            {
+              text: `
 You are a financial mentor for Indian students.
-Give simple, practical advice about saving, investing, budgeting.
+Explain in very simple language with examples.
 
-Question:
-${question}
-`;
+Question: ${question}
+`,
+            },
+          ],
+        },
+      ],
+    });
 
-    const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const text = response.text();
+    const text = result.response.text();
 
     res.json({ answer: text });
+
   } catch (error) {
-    console.error("Gemini Error:", error);
-    res.status(500).json({ error: "AI failed" });
+    console.error("❌ Gemini Error:", error.message);
+    res.status(500).json({ error: "Gemini failed to respond" });
   }
 });
+
 
 // ==============================
 // START SERVER (ALWAYS LAST)

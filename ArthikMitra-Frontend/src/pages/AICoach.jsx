@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { askAI } from "../services/aiService";
+import "./aicoach.css";
 
 function AICoach() {
   const [question, setQuestion] = useState("");
@@ -14,35 +15,49 @@ function AICoach() {
       const res = await askAI(question);
       setAnswer(res.answer);
     } catch (err) {
-      setAnswer("Error connecting to AI.");
+      setAnswer("⚠️ Unable to connect. Try again.");
     }
     setLoading(false);
   };
 
   return (
-    <div style={{ padding: "40px" }}>
-      <h1>AI Financial Coach</h1>
+    <div className="ai-page">
+      <div className="ai-container">
 
-      <input
-        type="text"
-        placeholder="Ask about saving, investing, budgeting..."
-        value={question}
-        onChange={(e) => setQuestion(e.target.value)}
-        style={{ width: "400px", padding: "10px" }}
-      />
+        <h1 className="ai-heading">
+          🤖 Your <span>AI Financial Mentor</span>
+        </h1>
 
-      <button onClick={handleAsk} style={{ marginLeft: "10px" }}>
-        Ask AI
-      </button>
+        <p className="ai-sub">
+          Ask anything about investing, saving, trading, or building wealth.
+        </p>
 
-      {loading && <p>Thinking...</p>}
+        {/* INPUT AREA */}
+        <div className="ai-input-box">
+          <input
+            type="text"
+            placeholder="Example: How should a student start investing?"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+          />
 
-      {answer && (
-        <div style={{ marginTop: "20px" }}>
-          <h3>AI Advice:</h3>
-          <p>{answer}</p>
+          <button onClick={handleAsk}>
+            Ask AI →
+          </button>
         </div>
-      )}
+
+        {/* LOADING */}
+        {loading && <div className="ai-loading">Analyzing Market Wisdom...</div>}
+
+        {/* ANSWER */}
+        {answer && (
+          <div className="ai-response">
+            <h3>AI Insight</h3>
+            <p>{answer}</p>
+          </div>
+        )}
+
+      </div>
     </div>
   );
 }

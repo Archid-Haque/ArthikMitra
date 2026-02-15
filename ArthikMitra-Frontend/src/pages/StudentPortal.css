@@ -1,0 +1,105 @@
+.student-page {
+  min-height: 100vh;
+  background: #020617;
+  padding: 120px 24px;
+  color: #E5E7EB;
+}
+
+.student-heading {
+  text-align: center;
+  font-size: 40px;
+  margin-bottom: 50px;
+}
+
+/* Only this word will change */
+.highlight-word {
+  color: #A3FF12;          /* Your neon theme color */
+  font-weight: 650;
+  letter-spacing: 1px;
+}
+
+
+/* GRID */
+.student-grid {
+  max-width: 1320px;
+  margin: auto;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+/* CARD */
+.student-card {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  padding: 40px;
+  border-radius: 20px;
+  border: 1px solid rgba(255,255,255,0.05);
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  cursor: pointer;
+}
+
+/* Glow follows cursor */
+.student-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at var(--x) var(--y),
+      rgba(163,255,18,0.15),
+      transparent 40%);
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.student-card:hover::before {
+  opacity: 1;
+}
+
+/* Lift effect */
+.student-card:hover {
+  transform: translateY(-16px);
+  border-color: rgba(163,255,18,0.5);
+  box-shadow: 0 25px 60px rgba(0,0,0,0.7);
+}
+
+/* POPUP ACTION BAR */
+.card-action {
+  position: absolute;
+  bottom: -60px;
+  left: 0;
+  width: 100%;
+  padding: 16px;
+  background: #A3FF12;
+  color: black;
+  text-align: center;
+  font-weight: 600;
+  transition: all .3s ease;
+}
+
+/* This is the magic reveal */
+.student-card:hover .card-action {
+  bottom: 0;
+}
+
+/* TEXT */
+.student-card h3 {
+  margin-bottom: 12px;
+}
+
+.student-card p {
+  color: #9CA3AF;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .student-grid {
+    grid-template-columns: repeat(2,1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .student-grid {
+    grid-template-columns: 1fr;
+  }
+}
