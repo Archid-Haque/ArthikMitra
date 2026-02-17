@@ -27,7 +27,7 @@ html, body, #root {
   height: 100vh;              /* lock to viewport */
   display: flex;
   align-items: flex-start;     /* move content upward */
-  padding-top: 110px;          /* controlled top spacing (magic value) */
+  padding-top: 80px;          /* controlled top spacing (magic value) */
 }
 
 

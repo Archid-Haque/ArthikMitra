@@ -1,86 +1,160 @@
 import { useState } from "react";
+import "./studentlogin.css";
+import { registerUser, loginUser } from "../services/authService";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import "./roleselect.css";
 
 function StudentLogin() {
   const navigate = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [isRegister, setIsRegister] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
 
-  const handleLogin = async () => {
-    // ✅ Basic validation
-    if (!email || !password) {
-      setError("Please enter email and password");
-      return;
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  // Handle input change
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  // Handle Submit (Login / Register)
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!form.email || !form.password) {
+      return alert("Please fill all required fields");
+    }
+
+    if (isRegister) {
+      if (!form.name) return alert("Enter your name");
+      if (form.password !== form.confirmPassword)
+        return alert("Passwords do not match");
     }
 
     try {
       setLoading(true);
-      setError("");
 
-      const res = await axios.post("http://localhost:5000/api/auth/login", {
-        email,
-        password,
-      });
+      if (isRegister) {
+        // REGISTER CALL
+        await registerUser({
+          name: form.name,
+          email: form.email,
+          password: form.password,
+        });
 
-      // ✅ Save JWT + role
-      localStorage.setItem("token", res.data.token);
-      localStorage.setItem("role", res.data.role);
+        alert("✅ Registration Successful! Please Login.");
+        setIsRegister(false);
+        setForm({
+          name: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+        });
 
-      // ✅ Redirect to protected page
-      navigate("/student");
+      } else {
+        // LOGIN CALL
+        const res = await loginUser({
+          email: form.email,
+          password: form.password,
+        });
 
-      // ✅ Force refresh so Navbar updates to Logout
-      window.location.reload();
+        // Save session
+        localStorage.setItem("token", res.data.token);
+        window.dispatchEvent(new Event("authChanged"));
+
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+
+        alert("✅ Login Successful!");
+
+        // Redirect to dashboard / AI coach / student portal
+        navigate("/ai-coach");
+      }
 
     } catch (err) {
       console.error(err);
-      setError("Invalid email or password");
+      alert(err.response?.data?.msg || "Something went wrong");
     } finally {
       setLoading(false);
     }
   };
 
-  // ✅ Allow ENTER key login
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      handleLogin();
-    }
-  };
-
   return (
-    <div className="role-page">
-      <h2 className="role-heading">
-        Student <span>Login</span>
-      </h2>
-
+    <div className="login-page">
       <div className="login-card">
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          onKeyDown={handleKeyPress}
-        />
 
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          onKeyDown={handleKeyPress}
-        />
+        <h2>{isRegister ? "Create Account" : "Student Login"}</h2>
 
-        {/* Error Message */}
-        {error && <p style={{ color: "red" }}>{error}</p>}
+        <p className="login-sub">
+          {isRegister
+            ? "Start your financial journey today."
+            : "Welcome back to ArthikMitra"}
+        </p>
 
-        <button onClick={handleLogin} disabled={loading}>
-          {loading ? "Initializing..." : "Initialize Session"}
-        </button>
+        <form className="login-form" onSubmit={handleSubmit}>
+
+          {isRegister && (
+            <input
+              type="text"
+              name="name"
+              placeholder="Full Name"
+              value={form.name}
+              onChange={handleChange}
+            />
+          )}
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={form.email}
+            onChange={handleChange}
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+          />
+
+          {isRegister && (
+            <input
+              type="password"
+              name="confirmPassword"
+              placeholder="Confirm Password"
+              value={form.confirmPassword}
+              onChange={handleChange}
+            />
+          )}
+
+          <button type="submit" disabled={loading}>
+            {loading
+              ? "Please wait..."
+              : isRegister
+              ? "Register"
+              : "Login"}
+          </button>
+        </form>
+
+        <div className="login-toggle">
+          {isRegister ? (
+            <>
+              Already have an account?
+              <span onClick={() => setIsRegister(false)}> Login</span>
+            </>
+          ) : (
+            <>
+              New here?
+              <span onClick={() => setIsRegister(true)}> Create Account</span>
+            </>
+          )}
+        </div>
+
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 // ==============================
-// LOAD ENV FIRST (IMPORTANT)
+// LOAD ENV FIRST
 // ==============================
 require("dotenv").config();
 
@@ -8,8 +8,8 @@ require("dotenv").config();
 // ==============================
 const express = require("express");
 const cors = require("cors");
+const axios = require("axios"); // 🔥 for OpenRouter
 const connectDB = require("./config/db");
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 // 🔐 Auth imports
 const authRoutes = require("./routes/auth");
@@ -21,7 +21,7 @@ const authMiddleware = require("./middleware/authMiddleware");
 const app = express();
 
 // ==============================
-// CONNECT DATABASE (🔥 THIS RUNS MONGO)
+// CONNECT DATABASE
 // ==============================
 connectDB();
 
@@ -47,22 +47,24 @@ app.get("/api/session", authMiddleware, (req, res) => {
 });
 
 // ==============================
-// GEMINI AI SETUP
+// CHECK OPENROUTER KEY
 // ==============================
-if (!process.env.GEMINI_API_KEY) {
-  throw new Error("❌ GEMINI_API_KEY missing in .env");
+if (!process.env.OPENROUTER_API_KEY) {
+  throw new Error("❌ OPENROUTER_API_KEY missing in .env");
 }
 
-const genAI = new GoogleGenerativeAI({
-  apiKey: process.env.GEMINI_API_KEY,
-});
+console.log("✅ OpenRouter Key Loaded");
 
-
-
+// ==============================
+// ROOT ROUTE
+// ==============================
 app.get("/", (req, res) => {
   res.send("ArthikMitra Backend Running ✅");
 });
 
+// ==============================
+// AI ENDPOINT (OPENROUTER)
+// ==============================
 app.post("/api/ai", async (req, res) => {
   console.log("🔥 AI endpoint hit");
 
@@ -73,41 +75,44 @@ app.post("/api/ai", async (req, res) => {
       return res.status(400).json({ error: "Question is required" });
     }
 
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash",
-    });
-
-    const result = await model.generateContent({
-      contents: [
-        {
-          role: "user",
-          parts: [
-            {
-              text: `
-You are a financial mentor for Indian students.
-Explain in very simple language with examples.
-
-Question: ${question}
-`,
-            },
-          ],
+    const response = await axios.post(
+      "https://openrouter.ai/api/v1/chat/completions",
+      {
+        model: "mistralai/mistral-7b-instruct", // ✅ Free model
+        messages: [
+          {
+            role: "system",
+            content:
+              "You are a financial mentor for Indian students. Explain simply using relatable examples.",
+          },
+          {
+            role: "user",
+            content: question,
+          },
+        ],
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          "Content-Type": "application/json",
         },
-      ],
-    });
+      }
+    );
 
-    const text = result.response.text();
+    const answer = response.data.choices[0].message.content;
 
-    res.json({ answer: text });
-
+    res.json({ answer });
   } catch (error) {
-    console.error("❌ Gemini Error:", error.message);
-    res.status(500).json({ error: "Gemini failed to respond" });
+    console.error(
+      "❌ OpenRouter Error:",
+      error.response?.data || error.message
+    );
+    res.status(500).json({ error: "AI failed" });
   }
 });
 
-
 // ==============================
-// START SERVER (ALWAYS LAST)
+// START SERVER
 // ==============================
 app.listen(process.env.PORT, () => {
   console.log("Server running on port " + process.env.PORT);

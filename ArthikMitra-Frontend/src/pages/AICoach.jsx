@@ -21,40 +21,32 @@ function AICoach() {
   };
 
   return (
+    
+  <div className="ai-page-scroll">
+
     <div className="ai-page">
-      <div className="ai-container">
+      <h1 className="ai-title">🤖 Your AI Financial Mentor</h1>
 
-        <h1 className="ai-heading">
-          🤖 Your <span>AI Financial Mentor</span>
-        </h1>
+      <div className="ai-input-box">
+        <input
+          type="text"
+          placeholder="Ask about saving, investing, budgeting..."
+          value={question}
+          onChange={(e) => setQuestion(e.target.value)}
+        />
 
-        <p className="ai-sub">
-          Ask anything about investing, saving, trading, or building wealth.
-        </p>
+        <button onClick={handleAsk}>Ask AI →</button>
+      </div>
 
-        {/* INPUT AREA */}
-        <div className="ai-input-box">
-          <input
-            type="text"
-            placeholder="Example: How should a student start investing?"
-            value={question}
-            onChange={(e) => setQuestion(e.target.value)}
-          />
+      {loading && <p className="ai-thinking">Thinking...</p>}
 
-          <button onClick={handleAsk}>
-            Ask AI →
-          </button>
-        </div>
+      {answer && (
+        <div className="ai-response">
+          <h3>AI Insight</h3>
+          <p>{answer}</p>
+    
 
-        {/* LOADING */}
-        {loading && <div className="ai-loading">Analyzing Market Wisdom...</div>}
-
-        {/* ANSWER */}
-        {answer && (
-          <div className="ai-response">
-            <h3>AI Insight</h3>
-            <p>{answer}</p>
-          </div>
+    </div>
         )}
 
       </div>

@@ -1,14 +1,21 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
-import StudentPortal from "./pages/StudentPortal";
+
 import Home from "./pages/Home";
+import Features from "./pages/Features";
 import Learn from "./pages/Learn";
-import Dashboard from "./pages/Dashboard";
 import AICoach from "./pages/AICoach";
 import RoleSelect from "./pages/RoleSelect";
 import StudentLogin from "./pages/StudentLogin";
-import Features from "./pages/Features";   // ✅ Import here
+import StudentPortal from "./pages/StudentPortal";
+import Dashboard from "./pages/Dashboard";
 
+// ✅ Module Pages
+import SavingBasics from "./pages/modules/SavingBasics";
+import Budgeting from "./pages/modules/Budgeting";
+import InvestingIntro from "./pages/modules/InvestingIntro";
+
+// ✅ Protected Route
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
@@ -21,17 +28,21 @@ function App() {
       <Routes>
         {/* Public Pages */}
         <Route path="/" element={<Home />} />
-        <Route path="/features" element={<Features />} /> {/* ✅ ADD HERE */}
+        <Route path="/features" element={<Features />} />
         <Route path="/learn" element={<Learn />} />
         <Route path="/ai-coach" element={<AICoach />} />
 
-        {/* Role Selection */}
+        {/* Auth Pages */}
         <Route path="/login" element={<RoleSelect />} />
-
-        {/* Login Page */}
         <Route path="/student-login" element={<StudentLogin />} />
 
+        {/* Student Portal */}
         <Route path="/student-portal" element={<StudentPortal />} />
+
+        {/* Learning Modules */}
+        <Route path="/module/saving-basics" element={<SavingBasics />} />
+        <Route path="/module/budgeting" element={<Budgeting />} />
+        <Route path="/module/investing-intro" element={<InvestingIntro />} />
 
         {/* Protected Dashboard */}
         <Route

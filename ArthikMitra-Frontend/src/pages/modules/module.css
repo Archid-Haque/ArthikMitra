@@ -1,0 +1,31 @@
+.module-page {
+  padding: 60px 80px;
+  color: #e6edf3;
+  background: #020617;
+  min-height: 100vh;
+}
+
+.module-title {
+  font-size: 42px;
+  margin-bottom: 30px;
+  color: #38bdf8;
+}
+
+.module-content {
+  max-width: 800px;
+  line-height: 1.8;
+  font-size: 18px;
+}
+
+.module-content h2 {
+  margin-top: 30px;
+  color: #a3e635;
+}
+
+.module-highlight {
+  margin-top: 40px;
+  padding: 20px;
+  border-left: 4px solid #a3e635;
+  background: rgba(163,230,53,0.05);
+  font-style: italic;
+}

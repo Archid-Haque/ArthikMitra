@@ -6,45 +6,63 @@ function Navbar() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  // ✅ Check login state + listen for changes
+  /* =====================================================
+     CHECK LOGIN STATE + LISTEN FOR LOGIN/LOGOUT EVENTS
+  ===================================================== */
   useEffect(() => {
     const checkLogin = () => {
       const token = localStorage.getItem("token");
       setIsLoggedIn(!!token);
     };
 
+    // Initial check when component loads
     checkLogin();
 
-    // Listen if login/logout happens in another tab or after reload
+    // 🔥 Detect login/logout inside SAME TAB
+    window.addEventListener("authChanged", checkLogin);
+
+    // 🔥 Detect login/logout from OTHER tabs
     window.addEventListener("storage", checkLogin);
 
     return () => {
+      window.removeEventListener("authChanged", checkLogin);
       window.removeEventListener("storage", checkLogin);
     };
   }, []);
 
-  // ✅ Logout Function
+  /* =====================================================
+     LOGOUT FUNCTION
+  ===================================================== */
   const handleLogout = () => {
     localStorage.clear();
-    setIsLoggedIn(false);
+
+    // 🔥 Notify whole app user logged out
+    window.dispatchEvent(new Event("authChanged"));
+
     navigate("/");
-    window.location.reload(); // reset protected routes cleanly
   };
 
-  // ✅ Login Redirect
+  /* =====================================================
+     LOGIN REDIRECT
+  ===================================================== */
   const handleLogin = () => {
     navigate("/login");
   };
 
   return (
     <nav style={styles.nav}>
-      <h2 style={styles.logo}>ArthikMitra</h2>
+      {/* LOGO */}
+      <img
+        src="/src/img/logo.PNG"
+        alt="ArthikMitra Logo"
+        style={styles.logo}
+      />
 
       <div style={styles.right}>
         <Link style={styles.link} to="/">Home</Link>
         <Link style={styles.link} to="/learn">Learn</Link>
 
-        {/* Show only if logged in */}
+        {/* Show these ONLY when logged in */}
         {isLoggedIn && (
           <>
             <Link style={styles.link} to="/dashboard">Dashboard</Link>
@@ -52,7 +70,7 @@ function Navbar() {
           </>
         )}
 
-        {/* Toggle Login / Logout */}
+        {/* Toggle Button */}
         {!isLoggedIn ? (
           <button style={styles.login} onClick={handleLogin}>
             Login
@@ -67,6 +85,9 @@ function Navbar() {
   );
 }
 
+/* =====================================================
+   STYLES
+===================================================== */
 const styles = {
   nav: {
     display: "flex",
@@ -81,11 +102,9 @@ const styles = {
   },
 
   logo: {
-    margin: 0,
-    color: "#A3FF12",
-    fontWeight: "700",
-    letterSpacing: "1px",
-    fontSize: "22px"
+    width: "200px",
+    height: "auto",
+    cursor: "pointer"
   },
 
   right: {

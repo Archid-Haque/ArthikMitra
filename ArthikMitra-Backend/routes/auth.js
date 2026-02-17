@@ -1,102 +1,83 @@
-require("dotenv").config();
-
 const express = require("express");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-
-// ✅ MongoDB User Model
+const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 
-/* =====================================================
-   SIGNUP (REGISTER USER)
-   POST /api/auth/signup
-===================================================== */
-router.post("/signup", async (req, res) => {
+// ==============================
+// REGISTER USER
+// ==============================
+router.post("/register", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { name, email, password } = req.body;
 
-    // ✅ Validate input
-    if (!email || !password) {
-      return res.status(400).json({ msg: "Email and password required" });
-    }
-
-    // ✅ Check if user already exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
+    // Check existing user
+    const existing = await User.findOne({ email });
+    if (existing) {
       return res.status(400).json({ msg: "User already exists" });
     }
 
-    // ✅ Hash password before saving
-    const hashedPassword = await bcrypt.hash(password, 10);
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    // ✅ Create user
-    const newUser = new User({
+    // Save user
+    const user = new User({
+      name,
       email,
       password: hashedPassword,
-      role: "student"   // default role (can extend later)
     });
 
-    await newUser.save();
+    await user.save();
 
-    res.status(201).json({
-      msg: "User Registered Successfully ✅"
-    });
+    res.json({ msg: "Registration successful" });
 
   } catch (err) {
-    console.error("Signup Error:", err);
-    res.status(500).json({ msg: "Server error during signup" });
+    console.error(err);
+    res.status(500).json({ msg: "Server error" });
   }
 });
 
 
-/* =====================================================
-   LOGIN (AUTHENTICATE USER)
-   POST /api/auth/login
-===================================================== */
+// ==============================
+// LOGIN USER
+// ==============================
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // ✅ Validate input
-    if (!email || !password) {
-      return res.status(400).json({ msg: "Email and password required" });
-    }
-
-    // ✅ Find user from MongoDB
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ msg: "User not found" });
+      return res.status(400).json({ msg: "Invalid credentials" });
     }
 
-    // ✅ Compare hashed password
+    // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).json({ msg: "Wrong password" });
+      return res.status(400).json({ msg: "Invalid credentials" });
     }
 
-    // ✅ Create JWT Token
+    // Create JWT token
     const token = jwt.sign(
-      {
-        id: user._id,
-        role: user.role
-      },
+      { id: user._id },
       process.env.JWT_SECRET,
       { expiresIn: "7d" }
     );
 
     res.json({
-      msg: "Login Successful",
       token,
-      role: user.role
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+      },
     });
 
   } catch (err) {
-    console.error("Login Error:", err);
-    res.status(500).json({ msg: "Server error during login" });
+    console.error(err);
+    res.status(500).json({ msg: "Server error" });
   }
 });
-
 
 module.exports = router;
