@@ -5,7 +5,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding-top: 80px;
+
+  /* 🔼 Adjusted to lift card upward */
+  padding-top: 40px;
+  padding-bottom: 60px;
 }
 
 /* CARD */
@@ -18,6 +21,17 @@
   box-shadow: 0 0 40px rgba(163,255,18,0.08);
   text-align: center;
   animation: fadeIn 0.4s ease;
+
+  /* ✨ Added for better positioning + elegance */
+  margin-top: -30px;
+  backdrop-filter: blur(6px);
+  transition: transform 0.35s ease, box-shadow 0.35s ease;
+}
+
+/* ✨ Subtle hover elevation */
+.login-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 60px rgba(163,255,18,0.12);
 }
 
 /* TITLE */
@@ -25,11 +39,17 @@
   font-size: 28px;
   margin-bottom: 6px;
   color: #E5E7EB;
+
+  /* ✨ Slight glow for brand feel */
+  letter-spacing: 0.4px;
 }
 
 .login-sub {
   color: #9CA3AF;
   margin-bottom: 28px;
+
+  /* smoother readability */
+  font-size: 14.5px;
 }
 
 /* FORM */
@@ -47,6 +67,9 @@
   color: #E5E7EB;
   outline: none;
   transition: 0.2s;
+
+  /* ✨ added depth */
+  box-shadow: inset 0 0 6px rgba(0,0,0,0.6);
 }
 
 .login-form input:focus {
@@ -65,10 +88,14 @@
   font-weight: 600;
   cursor: pointer;
   transition: 0.25s;
+
+  /* ✨ makes CTA feel stronger */
+  box-shadow: 0 6px 18px rgba(163,255,18,0.25);
 }
 
 .login-form button:hover {
   transform: scale(1.04);
+  box-shadow: 0 10px 28px rgba(163,255,18,0.35);
 }
 
 /* TOGGLE */
@@ -82,10 +109,24 @@
   color: #A3FF12;
   cursor: pointer;
   margin-left: 6px;
+  transition: 0.2s;
+}
+
+/* ✨ nice hover feedback */
+.login-toggle span:hover {
+  text-shadow: 0 0 8px rgba(163,255,18,0.8);
 }
 
 /* ANIMATION */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* ✅ Responsive polish (does NOT remove anything) */
+@media (max-height: 700px) {
+  .login-page {
+    align-items: flex-start;
+    padding-top: 60px;
+  }
 }

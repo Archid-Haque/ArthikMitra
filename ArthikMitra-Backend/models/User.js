@@ -5,15 +5,28 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
   email: {
     type: String,
     required: true,
     unique: true,
   },
+
   password: {
     type: String,
-    required: true,
+    required: false, // Google users don't need password
   },
+
+  avatar: {
+    type: String, // Google profile image
+    default: "",
+  },
+
+  provider: {
+    type: String,
+    default: "local", // "local" | "google"
+  },
+
   createdAt: {
     type: Date,
     default: Date.now,

@@ -3,6 +3,11 @@ import "./studentlogin.css";
 import { registerUser, loginUser } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 
+import { GoogleLogin } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
+
+import axios from "axios";
+
 function StudentLogin() {
   const navigate = useNavigate();
 
@@ -16,12 +21,46 @@ function StudentLogin() {
     confirmPassword: "",
   });
 
-  // Handle input change
+  // ============================
+  // HANDLE INPUT CHANGE
+  // ============================
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  // Handle Submit (Login / Register)
+  // ============================
+  // GOOGLE LOGIN HANDLER 🔥
+  // ============================
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      const decoded = jwtDecode(credentialResponse.credential);
+
+      // Send Google user to backend
+      const res = await axios.post("http://localhost:5000/api/auth/google", {
+        name: decoded.name,
+        email: decoded.email,
+        picture: decoded.picture,
+      });
+
+      // Save login session
+      localStorage.setItem("token", res.data.token);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      // Notify Navbar to update instantly
+      window.dispatchEvent(new Event("authChanged"));
+
+      alert("✅ Google Login Successful!");
+      navigate("/ai-coach");
+
+    } catch (err) {
+      console.error("Google Login Failed:", err);
+      alert("Google Login Failed");
+    }
+  };
+
+  // ============================
+  // HANDLE SUBMIT (LOGIN / REGISTER)
+  // ============================
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -64,13 +103,11 @@ function StudentLogin() {
 
         // Save session
         localStorage.setItem("token", res.data.token);
-        window.dispatchEvent(new Event("authChanged"));
-
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
-        alert("✅ Login Successful!");
+        window.dispatchEvent(new Event("authChanged"));
 
-        // Redirect to dashboard / AI coach / student portal
+        alert("✅ Login Successful!");
         navigate("/ai-coach");
       }
 
@@ -82,6 +119,9 @@ function StudentLogin() {
     }
   };
 
+  // ============================
+  // UI
+  // ============================
   return (
     <div className="login-page">
       <div className="login-card">
@@ -140,6 +180,15 @@ function StudentLogin() {
               : "Login"}
           </button>
         </form>
+
+        {/* ================= GOOGLE BUTTON ================= */}
+        <div style={{ marginTop: "22px", display: "flex", justifyContent: "center" }}>
+          <GoogleLogin
+            onSuccess={handleGoogleSuccess}
+            onError={() => console.log("Google Login Failed")}
+          />
+        </div>
+        {/* ================================================= */}
 
         <div className="login-toggle">
           {isRegister ? (

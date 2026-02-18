@@ -27,6 +27,7 @@ router.post("/register", async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      provider: "local",
     });
 
     await user.save();
@@ -34,7 +35,7 @@ router.post("/register", async (req, res) => {
     res.json({ msg: "Registration successful" });
 
   } catch (err) {
-    console.error(err);
+    console.error("Register Error:", err);
     res.status(500).json({ msg: "Server error" });
   }
 });
@@ -50,6 +51,13 @@ router.post("/login", async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ msg: "Invalid credentials" });
+    }
+
+    // If it's a Google user → block password login
+    if (user.provider === "google") {
+      return res.status(400).json({
+        msg: "Use Google Login for this account",
+      });
     }
 
     // Compare password
@@ -75,9 +83,62 @@ router.post("/login", async (req, res) => {
     });
 
   } catch (err) {
-    console.error(err);
+    console.error("Login Error:", err);
     res.status(500).json({ msg: "Server error" });
   }
 });
 
+
+// ==========================
+// GOOGLE LOGIN
+// ==========================
+router.post("/google", async (req, res) => {
+  try {
+    const { name, email, picture } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ msg: "Email required" });
+    }
+
+    // Check if user already exists
+    let user = await User.findOne({ email });
+
+    // If not → create Google user
+    if (!user) {
+      user = new User({
+        name,
+        email,
+        password: "",          // No password for Google users
+        avatar: picture,       // Matches your schema
+        provider: "google",
+      });
+
+      await user.save();
+    }
+
+    // Create JWT token
+    const token = jwt.sign(
+      { id: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
+    );
+
+    res.json({
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+      },
+    });
+
+  } catch (err) {
+    console.error("Google Auth Error:", err);
+    res.status(500).json({ msg: "Google login failed" });
+  }
+});
+
+
+// ✅ EXPORT MUST BE AT VERY END
 module.exports = router;
