@@ -2,7 +2,6 @@ import "./home.css";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
-  // ✅ Create navigation handler
   const navigate = useNavigate();
 
   return (
@@ -26,7 +25,6 @@ function Home() {
               Your AI-powered financial companion for students.
             </p>
 
-            {/* ✅ Navigation Added Here */}
             <button
               className="hero-btn"
               onClick={() => navigate("/features")}
@@ -49,6 +47,12 @@ function Home() {
           </div>
 
         </div>
+
+        {/* 🔥 WATERMARK ADDED HERE */}
+        <div className="home-watermark">
+          With love,<br /> from ArthikMitra
+        </div>
+
       </section>
 
     </div>

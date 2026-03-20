@@ -215,3 +215,30 @@ html, body, #root {
     grid-template-columns: 1fr;
   }
 }
+
+/* =======================================================
+   WATERMARK (BRANDING SIGNATURE)
+======================================================= */
+
+.hero-section {
+  position: relative;   /* ✅ needed for absolute positioning */
+}
+
+/* Watermark */
+.home-watermark {
+  position: absolute;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  font-size: clamp(48px, 6vw, 80px);
+  font-weight: 800;
+
+  color: rgba(255,255,255,0.04);   /* super faded */
+  text-align: center;
+
+  pointer-events: none;
+  user-select: none;
+
+  line-height: 1.1;
+}
