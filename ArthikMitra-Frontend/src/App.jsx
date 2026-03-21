@@ -13,6 +13,11 @@ import StudentPortal from "./pages/StudentPortal";
 import Dashboard from "./pages/Dashboard";
 import AICoach from "./pages/AICoach";
 
+/* ========= GAMES ========= */
+import Games from "./pages/Games";
+import RatRace from "./pages/RatRace";
+import RatRaceGame from "./pages/RatRaceGame"; // ✅ IMPORTANT
+
 /* ========= MODULES ========= */
 import SavingBasics from "./pages/modules/SavingBasics";
 import Budgeting from "./pages/modules/Budgeting";
@@ -63,6 +68,36 @@ function App() {
           element={
             <ProtectedRoute>
               <AICoach />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= GAMES ================= */}
+        <Route
+          path="/games"
+          element={
+            <ProtectedRoute>
+              <Games />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= RAT RACE ================= */}
+        <Route
+          path="/game/rat-race"
+          element={
+            <ProtectedRoute>
+              <RatRace />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ✅ THIS IS THE MISSING LINK (GAME PLAY) */}
+        <Route
+          path="/game/rat-race/play"
+          element={
+            <ProtectedRoute>
+              <RatRaceGame />
             </ProtectedRoute>
           }
         />

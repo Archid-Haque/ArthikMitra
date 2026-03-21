@@ -1,0 +1,120 @@
+/* RESET */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* MAIN */
+.game-container {
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #0f172a, #020617);
+  font-family: "Poppins", sans-serif;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 120px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* BACKGROUND ANIMATION */
+.bg-animation::before {
+  content: "";
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(59,130,246,0.08) 2px, transparent 2px);
+  background-size: 50px 50px;
+  animation: moveBg 25s linear infinite;
+}
+
+@keyframes moveBg {
+  from { transform: translate(0,0); }
+  to { transform: translate(-150px, -150px); }
+}
+
+/* HUD */
+.hud {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  width: 600px;
+  margin-bottom: 60px;
+}
+
+/* HUD BOX */
+.hud-box {
+  background: rgba(255,255,255,0.05);
+  padding: 15px;
+  border-radius: 15px;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: 0.3s;
+}
+
+.hud-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 0 20px rgba(59,130,246,0.4);
+}
+
+.hud-box span {
+  font-size: 18px;
+}
+
+.hud-box p {
+  margin-top: 5px;
+  font-weight: bold;
+}
+
+/* GAME CARD */
+.game-card {
+  width: 420px;
+  padding: 30px;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  text-align: center;
+}
+
+/* TITLE */
+.game-card h2 {
+  margin-bottom: 25px;
+}
+
+/* BUTTONS */
+.choices {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.choices button {
+  padding: 14px;
+  border-radius: 12px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  transition: 0.25s;
+}
+
+.choices button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(59,130,246,0.5);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .hud {
+    width: 90%;
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .game-card {
+    width: 90%;
+  }
+}

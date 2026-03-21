@@ -2,22 +2,18 @@ import "./studentPortal.css";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
 
-
-
-
 function StudentPortal() {
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
 
   return (
     <div className="student-page">
 
-  <BackButton />
+      <BackButton />
 
-     <h1 className="student-heading">
-  Welcome Back <span className="highlight-word">Investor</span>
-</h1>
-
+      <h1 className="student-heading">
+        Welcome Back <span className="highlight-word">Investor</span>
+      </h1>
 
       <div
         className="student-grid"
@@ -31,14 +27,14 @@ const navigate = useNavigate();
         }}
       >
 
-        {/* CARD */}
+        {/* MY MODULES */}
         <div 
-        className="student-card"
-            onClick={() => navigate("/learn")}
-            tabIndex={0}
-            onKeyDown={(e) => handleKeyEnter(e, "/learn")}
-          >    
-           <h3>📘 My Modules</h3>
+          className="student-card"
+          onClick={() => navigate("/learn")}
+          tabIndex={0}
+          onKeyDown={(e) => e.key === "Enter" && navigate("/learn")}
+        >    
+          <h3>📘 My Modules</h3>
           <p>Pick up where you left off.</p>
 
           <div className="card-action">
@@ -46,15 +42,22 @@ const navigate = useNavigate();
           </div>
         </div>
 
-        <div className="student-card">
-          <h3>📈 Trading Arena</h3>
-          <p>Practice trading with virtual money.</p>
+        {/* ✅ UPDATED: INVESTMENT GAMES */}
+        <div 
+          className="student-card"
+          onClick={() => navigate("/games")}
+          tabIndex={0}
+          onKeyDown={(e) => e.key === "Enter" && navigate("/games")}
+        >
+          <h3>🎮 Investment Games</h3>
+          <p>Learn finance through interactive simulations.</p>
 
           <div className="card-action">
-            Start Trading →
+            Play Now →
           </div>
         </div>
 
+        {/* DAILY CHALLENGE */}
         <div className="student-card">
           <h3>🔥 Daily Challenge</h3>
           <p>Complete today's finance mission.</p>
@@ -64,6 +67,7 @@ const navigate = useNavigate();
           </div>
         </div>
 
+        {/* LEADERBOARD */}
         <div className="student-card">
           <h3>🏆 Leaderboard</h3>
           <p>See how you rank among friends.</p>
@@ -73,6 +77,7 @@ const navigate = useNavigate();
           </div>
         </div>
 
+        {/* AI MENTOR */}
         <div className="student-card">
           <h3>🤖 AI Mentor</h3>
           <p>Ask anything about money.</p>
@@ -82,6 +87,7 @@ const navigate = useNavigate();
           </div>
         </div>
 
+        {/* ACHIEVEMENTS */}
         <div className="student-card">
           <h3>🎯 Achievements</h3>
           <p>Track your growth journey.</p>

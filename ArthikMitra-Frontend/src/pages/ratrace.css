@@ -1,0 +1,69 @@
+.ratrace-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6d28d9, #4c1d95);
+  color: white;
+  padding: 40px;
+  text-align: center;
+}
+
+/* BACK */
+.back-btn {
+  position: absolute;
+  left: 30px;
+  top: 30px;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+/* TITLE */
+.ratrace-page h1 {
+  margin-bottom: 40px;
+}
+
+/* MODES */
+.mode-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.mode-card {
+  width: 200px;
+  height: 120px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.mode-card:hover {
+  transform: scale(1.05);
+}
+
+/* COLORS */
+.blue { background: #1d4ed8; }
+.orange { background: #ea580c; }
+.red { background: #dc2626; }
+.purple { background: #6b21a8; }
+
+/* LOCKED */
+.locked {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* FREE RUN */
+.free-run {
+  margin-top: 50px;
+  background: #22c55e;
+  padding: 20px 40px;
+  border-radius: 20px;
+  display: inline-block;
+  font-weight: bold;
+  cursor: pointer;
+}
