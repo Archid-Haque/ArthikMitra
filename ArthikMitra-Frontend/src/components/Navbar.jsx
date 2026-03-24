@@ -1,8 +1,9 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
+  const location = useLocation(); // still safe to keep (no harm)
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
@@ -15,13 +16,9 @@ function Navbar() {
       setIsLoggedIn(!!token);
     };
 
-    // Initial check when component loads
     checkLogin();
 
-    // 🔥 Detect login/logout inside SAME TAB
     window.addEventListener("authChanged", checkLogin);
-
-    // 🔥 Detect login/logout from OTHER tabs
     window.addEventListener("storage", checkLogin);
 
     return () => {
@@ -35,10 +32,7 @@ function Navbar() {
   ===================================================== */
   const handleLogout = () => {
     localStorage.clear();
-
-    // 🔥 Notify whole app user logged out
     window.dispatchEvent(new Event("authChanged"));
-
     navigate("/");
   };
 
@@ -47,6 +41,13 @@ function Navbar() {
   ===================================================== */
   const handleLogin = () => {
     navigate("/login");
+  };
+
+  /* =====================================================
+     BACK BUTTON FUNCTION (kept, but unused now — safe)
+  ===================================================== */
+  const handleBack = () => {
+    navigate(-1);
   };
 
   return (
@@ -67,6 +68,9 @@ function Navbar() {
           <>
             <Link style={styles.link} to="/dashboard">Dashboard</Link>
             <Link style={styles.link} to="/ai-coach">AI Coach</Link>
+
+            {/* ✅ STORE BUTTON */}
+            <Link style={styles.link} to="/store">Store</Link>
           </>
         )}
 
@@ -140,6 +144,18 @@ const styles = {
     borderRadius: "6px",
     cursor: "pointer",
     fontWeight: "600"
+  },
+
+  /* (kept but unused — harmless) */
+  back: {
+    marginLeft: "20px",
+    padding: "6px 14px",
+    border: "1px solid #22c55e",
+    background: "transparent",
+    color: "#22c55e",
+    borderRadius: "6px",
+    cursor: "pointer",
+    fontWeight: "500"
   }
 };
 

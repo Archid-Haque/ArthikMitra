@@ -23,6 +23,9 @@ import SavingBasics from "./pages/modules/SavingBasics";
 import Budgeting from "./pages/modules/Budgeting";
 import InvestingIntro from "./pages/modules/InvestingIntro";
 
+/* ========= STORE ========= */
+import Store from "./pages/Store"; // ✅ ADDED
+
 /* ========= PROTECTION ========= */
 import ProtectedRoute from "./components/ProtectedRoute";
 
@@ -68,6 +71,16 @@ function App() {
           element={
             <ProtectedRoute>
               <AICoach />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= STORE ================= */}
+        <Route
+          path="/store"
+          element={
+            <ProtectedRoute>
+              <Store />
             </ProtectedRoute>
           }
         />
