@@ -1,3 +1,4 @@
+import { startSession } from "../utils/sessionTimer";
 import { useState } from "react";
 import "./studentlogin.css";
 import { registerUser, loginUser } from "../services/authService";
@@ -50,7 +51,11 @@ function StudentLogin() {
       window.dispatchEvent(new Event("authChanged"));
 
       alert("✅ Google Login Successful!");
-      navigate("/ai-coach");
+
+// 🔥 ADD THIS LINE
+startSession();
+
+navigate("/ai-coach");
 
     } catch (err) {
       console.error("Google Login Failed:", err);
@@ -108,7 +113,11 @@ function StudentLogin() {
         window.dispatchEvent(new Event("authChanged"));
 
         alert("✅ Login Successful!");
-        navigate("/ai-coach");
+
+// 🔥 ADD THIS LINE
+startSession();
+
+navigate("/ai-coach");
       }
 
     } catch (err) {

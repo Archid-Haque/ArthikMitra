@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { getTotalTime } from "../utils/sessionTimer";
 import "./dashboard.css";
 
 function Dashboard() {
-  const [minutes, setMinutes] = useState(0);
+  const [minutes, setMinutes] = useState(
+  Math.floor(getTotalTime() / 60)
+);
   const [weeklyData, setWeeklyData] = useState(
     JSON.parse(localStorage.getItem("weeklyTime")) || [0,0,0,0,0,0,0]
   );
@@ -37,14 +40,19 @@ const updateGoal = (index, value) => {
 };
 
 
-  // TIMER
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setMinutes((prev) => prev + 1);
-    }, 60000);
 
-    return () => clearInterval(timer);
-  }, []);
+// 🔥 LIVE TIMER UPDATE
+useEffect(() => {
+  const interval = setInterval(() => {
+    const totalSeconds = getTotalTime();
+    setMinutes(Math.floor(totalSeconds / 60));
+  }, 1000);
+
+  return () => clearInterval(interval);
+}, []);
+
+
+
 
   // SAVE WEEKLY
   useEffect(() => {

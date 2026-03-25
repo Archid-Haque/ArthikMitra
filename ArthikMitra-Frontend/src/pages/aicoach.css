@@ -1,131 +1,168 @@
 /* ============================
-PAGE WRAPPER (handles scroll)
+PAGE WRAPPER
 ============================ */
 .ai-page-scroll {
-  height: calc(100vh - 80px);   /* enables scroll correctly */
+  height: calc(100vh - 80px);
   overflow-y: auto;
   overflow-x: hidden;
-  background: #050919;
-  padding-top: 60px;   /* space below navbar */
-  padding-bottom: 80px;
+
+  background: radial-gradient(circle at top, #0b1225, #020617);
+
+  padding-top: 60px;   /* 🔥 lift */
+  padding-bottom: 120px;
 }
 
 /* ============================
-MAIN PAGE LAYOUT
+MAIN PAGE
 ============================ */
 .ai-page {
   width: 100%;
-  max-width: 900px;
-  margin: 0 auto;           /* center page */
+  max-width: 1000px;
+  margin: 0 auto;
   padding: 0 20px;
-  color: #E5E7EB;
-
-  display: flex;
-  flex-direction: column;   /* stack vertically */
-}
-
-/* ============================
-CONTAINER
-============================ */
-.ai-container {
-  width: 100%;
-  max-width: 850px;
 
   display: flex;
   flex-direction: column;
-  align-items: stretch;   /* allow full width */
-  text-align: left;
-  gap: 26px;
+  align-items: center;
 
-  color: #E5E7EB;
+  margin-left: 300px;   /* 🔥 right move */
+  transform: translateY(-20px);   /* 🔥 lift */
+}
+
+/* ============================
+🔥 HERO SECTION
+============================ */
+.ai-hero {
+  width: 100%;
+  max-width: 800px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  gap: 36px;
+
+  margin-bottom: 60px;
+
+  position: relative;
+}
+
+/* glow background */
+.ai-hero::before {
+  content: "";
+  position: absolute;
+  width: 650px;
+  height: 260px;
+  background: radial-gradient(circle, rgba(163,255,18,0.15), transparent);
+  filter: blur(90px);
+  z-index: -1;
 }
 
 /* ============================
 HEADING
 ============================ */
 .ai-heading {
-  font-size: 42px;
-  font-weight: 600;
-  color: #E5E7EB;
+  font-size: 46px;
+  font-weight: 700;
 
-  text-align: center;     /* ✅ centers text */
-  width: 100%;            /* ensures proper centering */
-  margin-bottom: 6px;     /* small breathing space */
+  background: linear-gradient(90deg, #ffffff, #A3FF12);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  letter-spacing: 0.5px;
 }
 
+/* underline glow */
+.ai-heading::after {
+  content: "";
+  display: block;
+  width: 140px;
+  height: 4px;
+  margin: 16px auto 0;
 
-.ai-heading span {
-  color: #A3FF12;
-  text-shadow: 0 0 14px rgba(163,255,18,0.6);
+  background: #A3FF12;
+  border-radius: 10px;
+  box-shadow: 0 0 20px rgba(163,255,18,0.7);
 }
 
 /* ============================
-SUBTEXT
-============================ */
-.ai-sub {
-  color: #9CA3AF;
-  margin-bottom: 10px;
-}
-
-/* ============================
-INPUT + BUTTON ROW
+INPUT BOX
 ============================ */
 .ai-input-box {
   width: 100%;
+  max-width: 720px;
+
   display: flex;
   align-items: center;
 
   background: linear-gradient(145deg, #0f172a, #020617);
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 14px;
-  padding: 8px;
+  border-radius: 18px;
 
-  transition: 0.25s;
+  padding: 12px;
+
+  border: 1px solid rgba(163,255,18,0.2);
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.7);
+
+  transition: all 0.3s ease;
 }
 
+/* glow effect */
 .ai-input-box:focus-within {
   border-color: #A3FF12;
-  box-shadow: 0 0 18px rgba(163,255,18,0.2);
+
+  box-shadow:
+    0 0 30px rgba(163,255,18,0.6),
+    0 20px 60px rgba(0,0,0,0.9);
+
+  transform: translateY(-3px);
 }
 
 /* INPUT */
 .ai-input-box input {
-  flex: 1;                /* take remaining width */
-  height: 46px;
+  flex: 1;
+  height: 52px;
+
   border: none;
   outline: none;
   background: transparent;
+
   color: #E5E7EB;
-  font-size: 15px;
-  padding: 0 14px;
+  font-size: 16px;
+
+  padding: 0 18px;
 }
 
 /* BUTTON */
 .ai-input-box button {
-  height: 46px;
-  padding: 0 22px;
-  border-radius: 10px;
+  height: 52px;
+  padding: 0 26px;
+
+  border-radius: 12px;
   border: none;
 
-  background: #A3FF12;
+  background: linear-gradient(135deg, #A3FF12, #6cff00);
   color: #020617;
+
   font-weight: 600;
   cursor: pointer;
 
-  transition: 0.25s;
-  white-space: nowrap;
+  transition: all 0.25s ease;
 }
 
 .ai-input-box button:hover {
-  transform: scale(1.05);
+  transform: scale(1.08);
+  box-shadow: 0 0 20px rgba(163,255,18,0.7);
 }
 
 /* ============================
-LOADING TEXT
+LOADING
 ============================ */
 .ai-loading {
   color: #A3FF12;
-  margin-top: 20px;
+  margin-top: 10px;
   animation: pulse 1.2s infinite;
 }
 
@@ -136,34 +173,41 @@ LOADING TEXT
 }
 
 /* ============================
-AI RESPONSE CARD
+RESPONSE CARD
 ============================ */
 .ai-response {
   width: 100%;
-  margin-top: 30px;
-  padding: 26px;
+  max-width: 800px;
 
-  text-align: left;
-  border-radius: 16px;
+  padding: 30px;
+  border-radius: 18px;
 
   background: linear-gradient(145deg, #0f172a, #020617);
-  border: 1px solid rgba(163,255,18,0.18);
+  border: 1px solid rgba(163,255,18,0.15);
 
-  animation: fadeIn .35s ease;
+  backdrop-filter: blur(10px);
+
+  box-shadow:
+    0 15px 50px rgba(0,0,0,0.8),
+    0 0 30px rgba(163,255,18,0.08);
+
+  text-align: left;
+
+  animation: fadeIn 0.4s ease;
 }
 
 .ai-response h3 {
   color: #A3FF12;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .ai-response p {
   color: #D1D5DB;
-  line-height: 1.7;
+  line-height: 1.8;
 }
 
 /* ============================
-SCROLLBAR (ONLY THIS PAGE)
+SCROLLBAR
 ============================ */
 .ai-page-scroll::-webkit-scrollbar {
   width: 8px;
@@ -174,14 +218,65 @@ SCROLLBAR (ONLY THIS PAGE)
   border-radius: 10px;
 }
 
-.ai-page-scroll::-webkit-scrollbar-track {
-  background: transparent;
-}
-
 /* ============================
 ANIMATION
 ============================ */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ============================
+SIDEBAR
+============================ */
+.ai-sidebar {
+  position: fixed;
+  left: 0;
+  top: 80px;
+  width: 240px;
+  height: calc(100vh - 80px);
+
+  background: #020617;
+  border-right: 1px solid rgba(255,255,255,0.05);
+  padding: 20px;
+
+  overflow-y: auto;
+}
+
+/* chat items */
+.chat-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 8px;
+
+  background: #0f172a;
+  color: #e5e7eb;
+}
+
+/* delete button */
+.delete-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #9ca3af;
+}
+
+.delete-btn:hover {
+  color: red;
+}
+
+/* empty text */
+.empty {
+  color: #6b7280;
+  font-size: 14px;
 }

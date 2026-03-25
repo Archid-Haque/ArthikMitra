@@ -7,6 +7,9 @@ function AICoach() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // 🔥 NEW: history state
+  const [history, setHistory] = useState([]);
+
   const handleAsk = async () => {
     if (!question) return;
 
@@ -14,39 +17,75 @@ function AICoach() {
     try {
       const res = await askAI(question);
       setAnswer(res.answer);
+
+      // 🔥 ADD TO HISTORY
+      setHistory([
+        { q: question, a: res.answer },
+        ...history,
+      ]);
+
     } catch (err) {
       setAnswer("⚠️ Unable to connect. Try again.");
     }
     setLoading(false);
   };
 
+  // 🔥 DELETE CHAT
+  const deleteChat = (index) => {
+    const updated = history.filter((_, i) => i !== index);
+    setHistory(updated);
+  };
+
   return (
-    
-  <div className="ai-page-scroll">
+    <div className="ai-page-scroll">
 
-    <div className="ai-page">
-      <h1 className="ai-title">🤖 Your AI Financial Mentor</h1>
+      {/* 🔥 SIDEBAR (ADDED ONLY THIS BLOCK) */}
+      <div className="ai-sidebar">
+        <h2>Chats</h2>
 
-      <div className="ai-input-box">
-        <input
-          type="text"
-          placeholder="Ask about saving, investing, budgeting..."
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-        />
+        {history.length === 0 && <p className="empty">No chats yet</p>}
 
-        <button onClick={handleAsk}>Ask AI →</button>
+        {history.map((item, i) => (
+          <div key={i} className="chat-item">
+            <span>{item.q}</span>
+
+            <button
+              className="delete-btn"
+              onClick={() => deleteChat(i)}
+            >
+              🗑
+            </button>
+          </div>
+        ))}
       </div>
 
-      {loading && <p className="ai-thinking">Thinking...</p>}
+      <div className="ai-page">
 
-      {answer && (
-        <div className="ai-response">
-          <h3>AI Insight</h3>
-          <p>{answer}</p>
-    
+        {/* 🔥 HERO SECTION */}
+        <div className="ai-hero">
+          <h1 className="ai-heading">
+            🤖 Your AI Financial Mentor
+          </h1>
 
-    </div>
+          <div className="ai-input-box">
+            <input
+              type="text"
+              placeholder="Ask about saving, investing, budgeting..."
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+            />
+
+            <button onClick={handleAsk}>Ask AI →</button>
+          </div>
+        </div>
+
+        {loading && <p className="ai-loading">Thinking...</p>}
+
+        {answer && (
+          <div className="ai-response">
+            <h3>AI Insight</h3>
+            <p>{answer}</p>
+          </div>
         )}
 
       </div>
