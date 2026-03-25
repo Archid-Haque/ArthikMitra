@@ -2,30 +2,74 @@
   padding: 60px 80px;
   color: #e6edf3;
   background: #020617;
-  min-height: 100vh;
+
+  height: 100vh;
+  overflow-y: auto;
 }
 
+/* 🔥 Scrollbar */
+.module-page::-webkit-scrollbar {
+  width: 8px;
+}
+
+.module-page::-webkit-scrollbar-thumb {
+  background: #38bdf8;
+  border-radius: 10px;
+}
+
+/* Title */
 .module-title {
   font-size: 42px;
   margin-bottom: 30px;
   color: #38bdf8;
 }
 
+/* 🔥 REMOVE WIDTH LIMIT */
 .module-content {
-  max-width: 800px;
+  width: 100%;
+  max-width: 100%;   /* ❌ removed 800px restriction */
   line-height: 1.8;
   font-size: 18px;
 }
 
+/* Headings */
 .module-content h2 {
-  margin-top: 30px;
+  margin-top: 35px;
   color: #a3e635;
 }
 
+/* Paragraphs */
+.module-content p {
+  margin-top: 12px;
+  max-width: 1000px;  /* optional readability control */
+}
+
+/* Lists */
+.module-content ul {
+  margin-top: 12px;
+  padding-left: 25px;
+}
+
+.module-content li {
+  margin-bottom: 10px;
+}
+
+/* Highlight */
 .module-highlight {
   margin-top: 40px;
   padding: 20px;
   border-left: 4px solid #a3e635;
   background: rgba(163,230,53,0.05);
-  font-style: italic;
+  border-radius: 10px;
+  width: 100%;
+}
+
+/* Info Box */
+.module-box {
+  margin-top: 20px;
+  padding: 18px;
+  border-left: 4px solid #38bdf8;
+  background: rgba(56,189,248,0.05);
+  border-radius: 10px;
+  width: 100%;
 }

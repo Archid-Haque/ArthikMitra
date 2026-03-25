@@ -8,8 +8,8 @@ require("dotenv").config();
 // ==============================
 const express = require("express");
 const cors = require("cors");
-const axios = require("axios"); // 🔥 for OpenRouter
 const connectDB = require("./config/db");
+const Groq = require("groq-sdk");
 
 // 🔐 Auth imports
 const authRoutes = require("./routes/auth");
@@ -28,7 +28,7 @@ connectDB();
 // ==============================
 // MIDDLEWARE
 // ==============================
-app.use(cors());
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 // ==============================
@@ -47,13 +47,20 @@ app.get("/api/session", authMiddleware, (req, res) => {
 });
 
 // ==============================
-// CHECK OPENROUTER KEY
+// CHECK GROQ KEY
 // ==============================
-if (!process.env.OPENROUTER_API_KEY) {
-  throw new Error("❌ OPENROUTER_API_KEY missing in .env");
+if (!process.env.GROQ_API_KEY) {
+  throw new Error("❌ GROQ_API_KEY missing in .env");
 }
 
-console.log("✅ OpenRouter Key Loaded");
+console.log("✅ Groq Key Loaded");
+
+// ==============================
+// GROQ SETUP
+// ==============================
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
 // ==============================
 // ROOT ROUTE
@@ -63,7 +70,7 @@ app.get("/", (req, res) => {
 });
 
 // ==============================
-// AI ENDPOINT (OPENROUTER)
+// AI ENDPOINT (GROQ)
 // ==============================
 app.post("/api/ai", async (req, res) => {
   console.log("🔥 AI endpoint hit");
@@ -75,45 +82,50 @@ app.post("/api/ai", async (req, res) => {
       return res.status(400).json({ error: "Question is required" });
     }
 
-    const response = await axios.post(
-      "https://openrouter.ai/api/v1/chat/completions",
-      {
-        model: "mistralai/mistral-7b-instruct", // ✅ Free model
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are a financial mentor for Indian students. Explain simply using relatable examples.",
-          },
-          {
-            role: "user",
-            content: question,
-          },
-        ],
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const completion = await groq.chat.completions.create({
+      // ✅ UPDATED MODEL (IMPORTANT FIX)
+      model: "llama-3.3-70b-versatile",
 
-    const answer = response.data.choices[0].message.content;
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are a financial mentor for Indian students. Explain simply with real-life examples.",
+        },
+        {
+          role: "user",
+          content: question,
+        },
+      ],
+
+      temperature: 0.7, // 🔥 better responses
+      max_tokens: 800,  // ⚡ prevents cut answers
+    });
+
+    const answer =
+      completion.choices?.[0]?.message?.content ||
+      "⚠️ No response generated";
 
     res.json({ answer });
+
   } catch (error) {
     console.error(
-      "❌ OpenRouter Error:",
+      "❌ Groq Error:",
       error.response?.data || error.message
     );
-    res.status(500).json({ error: "AI failed" });
+
+    res.status(500).json({
+      error: "AI failed",
+      details: error.response?.data || error.message,
+    });
   }
 });
 
 // ==============================
 // START SERVER
 // ==============================
-app.listen(process.env.PORT, () => {
-  console.log("Server running on port " + process.env.PORT);
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running on port ${PORT}`);
 });
