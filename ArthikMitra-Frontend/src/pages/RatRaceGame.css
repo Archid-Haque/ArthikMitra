@@ -1,181 +1,81 @@
-/* RESET */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-/* BODY */
 body {
   font-family: "Poppins", sans-serif;
   background: radial-gradient(circle at top, #020617, #000);
   color: white;
-  overflow: hidden;
 }
 
 /* WRAPPER */
 .game-wrapper {
-  width: 100%;
-  height: 100vh;
+  height: calc(100vh - 70px);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
-  position: relative;
-}
-
-/* ANIMATED BACKGROUND */
-.game-wrapper::before {
-  content: "";
-  position: absolute;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(rgba(59,130,246,0.15) 2px, transparent 2px);
-  background-size: 60px 60px;
-  animation: moveBg 25s linear infinite;
-  z-index: 0;
-}
-
-@keyframes moveBg {
-  from {
-    transform: translate(0, 0);
-  }
-  to {
-    transform: translate(-200px, -200px);
-  }
 }
 
 /* HUD */
 .hud {
-  width: 90%;
-  max-width: 900px;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  gap: 20px;
   margin-top: 20px;
-  padding: 15px 25px;
+  padding: 15px 30px;
   border-radius: 20px;
+  display: flex;
+  gap: 40px;
 
   background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
-  box-shadow: 
-    0 0 30px rgba(59,130,246,0.2),
-    inset 0 0 10px rgba(255,255,255,0.05);
-
-  z-index: 2;
-}
-
-/* HUD ITEMS */
-.hud div {
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  padding: 8px 12px;
-  border-radius: 10px;
-  transition: 0.3s;
-}
-
-.hud div:hover {
-  background: rgba(59,130,246,0.1);
-  transform: translateY(-3px);
-  box-shadow: 0 0 15px rgba(59,130,246,0.4);
-}
-
-/* CANVAS */
-canvas {
-  margin-top: 25px;
-  border-radius: 25px;
-  z-index: 2;
-
-  background: linear-gradient(180deg, #0f172a, #020617);
-
-  box-shadow: 
-    0 0 60px rgba(0,0,0,0.8),
-    0 0 20px rgba(59,130,246,0.3);
-
-  transition: 0.3s;
-}
-
-canvas:hover {
-  transform: scale(1.01);
-  box-shadow: 
-    0 0 80px rgba(0,0,0,0.9),
-    0 0 30px rgba(59,130,246,0.5);
-}
-
-/* OVERLAY */
-.overlay {
-  position: absolute;
-  top: 35%;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  z-index: 3;
-
-  padding: 40px;
-  border-radius: 20px;
-
-  background: rgba(0,0,0,0.7);
   backdrop-filter: blur(15px);
 
-  box-shadow: 
-    0 0 40px rgba(255,0,0,0.3),
+  box-shadow:
+    0 0 25px rgba(59,130,246,0.2),
     inset 0 0 10px rgba(255,255,255,0.05);
 }
 
-/* GAME OVER TEXT */
-.overlay h1 {
-  font-size: 40px;
-  margin-bottom: 10px;
-  color: #ef4444;
-  text-shadow: 0 0 20px rgba(239,68,68,0.7);
-}
-
-.overlay p {
-  font-size: 18px;
-  margin-bottom: 20px;
-  color: #e5e7eb;
-}
-
-/* BUTTON */
-.overlay button {
-  padding: 12px 30px;
-  border: none;
-  border-radius: 12px;
+.hud div {
+  font-weight: 600;
   font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
+}
 
-  background: linear-gradient(135deg, #3b82f6, #2563eb);
+/* GAME CONTAINER */
+#game-container {
+  width: 360px;
+  height: 540px;
+  margin-top: 20px;
+  border-radius: 25px;
+  overflow: hidden;
+
+  box-shadow:
+    0 0 50px rgba(0,0,0,0.9),
+    0 0 20px rgba(59,130,246,0.3);
+}
+
+/* CANVAS FIT */
+#game-container canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* GAME OVER */
+.overlay {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.85);
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+
+  box-shadow: 0 0 40px rgba(255,0,0,0.3);
+}
+
+.overlay h1 {
+  color: #ef4444;
+}
+
+.overlay button {
+  margin-top: 15px;
+  padding: 10px 25px;
+  border-radius: 10px;
+  border: none;
+  background: #3b82f6;
   color: white;
-
-  box-shadow: 0 0 20px rgba(59,130,246,0.5);
-  transition: 0.3s;
-}
-
-.overlay button:hover {
-  transform: scale(1.1);
-  box-shadow: 
-    0 0 30px rgba(59,130,246,0.8),
-    0 0 60px rgba(59,130,246,0.4);
-}
-
-/* GLOW EFFECT */
-.overlay button:active {
-  transform: scale(0.95);
-}
-
-/* RESPONSIVE */
-@media (max-width: 768px) {
-  .hud {
-    flex-direction: column;
-    gap: 10px;
-    width: 95%;
-  }
-
-  canvas {
-    width: 95%;
-    height: auto;
-  }
+  cursor: pointer;
 }

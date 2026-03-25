@@ -15,6 +15,10 @@ function StudentPortal() {
         Welcome Back <span className="highlight-word">Investor</span>
       </h1>
 
+      <p className="student-tagline">
+        Your Friend to Master Money. Early.
+      </p>
+
       <div
         className="student-grid"
         onMouseMove={(e) => {
@@ -34,7 +38,8 @@ function StudentPortal() {
           tabIndex={0}
           onKeyDown={(e) => e.key === "Enter" && navigate("/learn")}
         >    
-          <h3>📘 My Modules</h3>
+          <div className="card-icon">📘</div>
+          <h3>My Modules</h3>
           <p>Pick up where you left off.</p>
 
           <div className="card-action">
@@ -42,14 +47,15 @@ function StudentPortal() {
           </div>
         </div>
 
-        {/* ✅ UPDATED: INVESTMENT GAMES */}
+        {/* INVESTMENT GAMES */}
         <div 
           className="student-card"
           onClick={() => navigate("/games")}
           tabIndex={0}
           onKeyDown={(e) => e.key === "Enter" && navigate("/games")}
         >
-          <h3>🎮 Investment Games</h3>
+          <div className="card-icon">🎮</div>
+          <h3>Investment Games</h3>
           <p>Learn finance through interactive simulations.</p>
 
           <div className="card-action">
@@ -59,7 +65,8 @@ function StudentPortal() {
 
         {/* DAILY CHALLENGE */}
         <div className="student-card">
-          <h3>🔥 Daily Challenge</h3>
+          <div className="card-icon">🔥</div>
+          <h3>Daily Challenge</h3>
           <p>Complete today's finance mission.</p>
 
           <div className="card-action">
@@ -69,7 +76,8 @@ function StudentPortal() {
 
         {/* LEADERBOARD */}
         <div className="student-card">
-          <h3>🏆 Leaderboard</h3>
+          <div className="card-icon">🏆</div>
+          <h3>Leaderboard</h3>
           <p>See how you rank among friends.</p>
 
           <div className="card-action">
@@ -79,7 +87,8 @@ function StudentPortal() {
 
         {/* AI MENTOR */}
         <div className="student-card">
-          <h3>🤖 AI Mentor</h3>
+          <div className="card-icon">🤖</div>
+          <h3>AI Mentor</h3>
           <p>Ask anything about money.</p>
 
           <div className="card-action">
@@ -89,7 +98,8 @@ function StudentPortal() {
 
         {/* ACHIEVEMENTS */}
         <div className="student-card">
-          <h3>🎯 Achievements</h3>
+          <div className="card-icon">🎯</div>
+          <h3>Achievements</h3>
           <p>Track your growth journey.</p>
 
           <div className="card-action">
