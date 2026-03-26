@@ -1,9 +1,58 @@
 .dashboard {
+  position: relative;
+
+  /* 🔥 FIX 1: allow natural spacing */
   height: calc(100vh - 80px);
   overflow-y: auto !important;
-  padding: 30px;
+
+  /* 🔥 FIX 2: REAL SCROLL OFFSET (IMPORTANT) */
+  scroll-padding-top: 40px;
+
+  /* 🔥 FIX 3: clean spacing */
+  padding: 10px;
+
+  /* 🔥 ADD SPACE FROM NAVBAR */
+  margin-top: 0px;
+
   background: radial-gradient(circle at top, #0f172a, #020617);
   color: white;
+}
+
+/* 🔥 TOP LIGHT SEPARATOR (THIS CREATES VISUAL GAP) */
+.dashboard::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 40px;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(59,130,246,0.15),
+    transparent
+  );
+
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 🔥 BACKGROUND GLOW */
+.dashboard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 70% 20%, rgba(59,130,246,0.12), transparent 40%),
+    radial-gradient(circle at 20% 80%, rgba(34,197,94,0.08), transparent 40%);
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* CONTENT ABOVE */
+.dashboard > * {
+  position: relative;
+  z-index: 1;
 }
 
 /* SCROLL */
@@ -16,24 +65,49 @@
 }
 
 /* HEADER */
-.header h1 { font-size: 32px; }
-.header p { color: #94a3b8; }
+.header {
+  margin-bottom: 25px;
+}
 
-/* TOP */
+.header h1 {
+  font-size: 32px;
+  text-shadow: 0 0 10px rgba(255,255,255,0.08);
+}
+
+.header p {
+  color: #94a3b8;
+}
+
+/* TOP CARDS */
 .top-cards {
   display: grid;
   grid-template-columns: repeat(4,1fr);
   gap: 15px;
-  margin: 20px 0;
+  margin: 15px 0;
 }
 
+/* CARD */
 .card {
-  background: #020617;
+  background: rgba(2, 6, 23, 0.75);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255,255,255,0.06);
   padding: 18px;
   border-radius: 12px;
   display: flex;
   justify-content: space-between;
-  border: 1px solid rgba(255,255,255,0.05);
+
+  box-shadow: 
+    0 4px 20px rgba(0,0,0,0.6),
+    inset 0 0 10px rgba(255,255,255,0.02);
+
+  transition: all 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 
+    0 10px 40px rgba(0,0,0,0.9),
+    0 0 25px rgba(59,130,246,0.25);
 }
 
 /* GRID */
@@ -51,17 +125,32 @@
 
 /* BOX */
 .box {
-  background: #020617;
+  background: rgba(2, 6, 23, 0.8);
+  backdrop-filter: blur(14px);
+  border: 1px solid rgba(255,255,255,0.05);
   padding: 22px;
   border-radius: 14px;
+
+  box-shadow: 
+    0 10px 40px rgba(0,0,0,0.8),
+    inset 0 0 12px rgba(255,255,255,0.02);
+
+  transition: all 0.3s ease;
 }
 
+.box:hover {
+  transform: translateY(-5px);
+  box-shadow: 
+    0 20px 60px rgba(0,0,0,0.95),
+    0 0 30px rgba(34,197,94,0.2);
+}
+
+/* TEXT */
 .section-title {
   margin-bottom: 18px;
   font-size: 18px;
 }
 
-/* FIX TITLE GAP */
 .market-title {
   margin-bottom: 25px;
 }
@@ -83,28 +172,29 @@
 
 .bar-wrapper {
   text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .bar {
   width: 22px;
+  max-height: 180px;
+  transition: height 0.4s ease;
   background: linear-gradient(#3b82f6,#22c55e);
   border-radius: 6px;
 }
 
-/* PIE FLEX FIX */
+/* PIE */
 .pie-flex {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-.pie-left {
-  width: 45%;
-}
-
-.pie-right {
-  width: 50%;
-}
+.pie-left { width: 45%; }
+.pie-right { width: 50%; }
 
 .pie {
   width: 180px;
@@ -157,6 +247,7 @@
   min-height: 70px;
 }
 
+/* BUTTON */
 .btn {
   margin-top: 10px;
   padding: 10px;
@@ -172,8 +263,7 @@
   transform: scale(1.05);
 }
 
-
-/* GOALS PANEL */
+/* GOALS */
 .goals .goal-item {
   margin-top: 15px;
   background: #111827;
