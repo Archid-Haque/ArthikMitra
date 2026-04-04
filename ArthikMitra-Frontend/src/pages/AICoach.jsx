@@ -63,8 +63,8 @@ function AICoach() {
 
         {/* 🔥 HERO SECTION */}
         <div className="ai-hero">
-          <h1 className="ai-heading">
-            🤖 Your AI Financial Mentor
+          <h1>🤖</h1><h1 className="ai-heading">
+             Your AI Financial Mentor
           </h1>
 
           <div className="ai-input-box">

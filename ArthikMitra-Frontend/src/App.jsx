@@ -1,5 +1,9 @@
 import { Routes, Route } from "react-router-dom";
+import { useEffect } from "react";
 import Navbar from "./components/Navbar";
+
+/* ========= TIMER ========= */
+import { startSession, stopSession } from "./utils/sessionTimer";
 
 /* ========= PUBLIC PAGES ========= */
 import Home from "./pages/Home";
@@ -12,11 +16,12 @@ import StudentLogin from "./pages/StudentLogin";
 import StudentPortal from "./pages/StudentPortal";
 import Dashboard from "./pages/Dashboard";
 import AICoach from "./pages/AICoach";
+import DailyChallenge from "./pages/DailyChallenge"; // ✅ ADDED
 
 /* ========= GAMES ========= */
 import Games from "./pages/Games";
 import RatRace from "./pages/RatRace";
-import RatRaceGame from "./pages/RatRaceGame"; // ✅ IMPORTANT
+import RatRaceGame from "./pages/RatRaceGame";
 
 /* ========= MODULES ========= */
 import SavingBasics from "./pages/modules/SavingBasics";
@@ -24,12 +29,46 @@ import Budgeting from "./pages/modules/Budgeting";
 import InvestingIntro from "./pages/modules/InvestingIntro";
 
 /* ========= STORE ========= */
-import Store from "./pages/Store"; // ✅ ADDED
+import Store from "./pages/Store";
 
 /* ========= PROTECTION ========= */
 import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
+
+  // 🔥 GLOBAL SESSION CONTROL (FIXED)
+  useEffect(() => {
+
+    const startIfLoggedIn = () => {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      startSession();
+    };
+
+    // ✅ run on load
+    startIfLoggedIn();
+
+    // ✅ run after login
+    window.addEventListener("authChanged", startIfLoggedIn);
+
+    // ✅ handle tab visibility
+    const handleVisibility = () => {
+      if (document.hidden) {
+        stopSession();
+      } else {
+        startIfLoggedIn();
+      }
+    };
+
+    document.addEventListener("visibilitychange", handleVisibility);
+
+    return () => {
+      window.removeEventListener("authChanged", startIfLoggedIn);
+      document.removeEventListener("visibilitychange", handleVisibility);
+    };
+  }, []);
+
   return (
     <>
       <Navbar />
@@ -61,6 +100,16 @@ function App() {
           element={
             <ProtectedRoute>
               <Dashboard />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= DAILY CHALLENGE (ADDED) ================= */}
+        <Route
+          path="/daily-challenge"
+          element={
+            <ProtectedRoute>
+              <DailyChallenge />
             </ProtectedRoute>
           }
         />
@@ -105,7 +154,7 @@ function App() {
           }
         />
 
-        {/* ✅ THIS IS THE MISSING LINK (GAME PLAY) */}
+        {/* ================= RAT RACE PLAY ================= */}
         <Route
           path="/game/rat-race/play"
           element={

@@ -1,0 +1,105 @@
+/* ================= CONTAINER ================= */
+.daily-container {
+  padding: 40px;
+  color: white;
+}
+
+/* ================= TITLE ================= */
+.daily-title {
+  font-size: 32px;
+  font-weight: bold;
+  margin-bottom: 30px;
+}
+
+/* ================= GRID ================= */
+.daily-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+/* ================= CARD ================= */
+.daily-card {
+  background: linear-gradient(145deg, #0f172a, #020617);
+  border-radius: 20px;
+  padding: 25px;
+  border: 1px solid rgba(0, 255, 150, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* ✨ Glow effect */
+.daily-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(0,255,150,0.15), transparent);
+  opacity: 0;
+  transition: 0.3s;
+}
+
+.daily-card:hover::before {
+  opacity: 1;
+}
+
+/* 🚀 Hover lift */
+.daily-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  border-color: #00ff95;
+  box-shadow: 0 0 20px rgba(0, 255, 150, 0.3);
+}
+
+/* ================= HEADER ================= */
+.card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.card-header h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* ================= ICON ================= */
+.icon {
+  font-size: 22px;
+}
+
+/* ================= TEXT ================= */
+.desc {
+  color: #9ca3af;
+  margin-top: 10px;
+}
+
+.xp {
+  margin-top: 12px;
+  color: #00ff95;
+  font-weight: 600;
+}
+
+/* ================= BUTTON ================= */
+.start-btn {
+  margin-top: 18px;
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  background: linear-gradient(90deg, #00ff95, #00c76f);
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+/* 🔥 Button hover */
+.start-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #00ff95;
+}
+
+.completed-btn {
+  background: gray !important;
+  cursor: not-allowed;
+}

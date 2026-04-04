@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { getTotalTime } from "../utils/sessionTimer";
+import { getTotalTime } from "../utils/sessionTimer"; // ✅ ONLY THIS NOW
 import "./dashboard.css";
 
 function Dashboard() {
   const [minutes, setMinutes] = useState(
-  Math.floor(getTotalTime() / 60)
-);
+    Math.floor(getTotalTime() / 60)
+  );
   const [weeklyData, setWeeklyData] = useState(
     JSON.parse(localStorage.getItem("weeklyTime")) || [0,0,0,0,0,0,0]
   );
@@ -18,41 +18,34 @@ function Dashboard() {
   const [name, setName] = useState(localStorage.getItem("name") || "");
   const [bio, setBio] = useState(localStorage.getItem("bio") || "");
 
+  // GOALS STATE
+  const [goals, setGoals] = useState(
+    JSON.parse(localStorage.getItem("goals")) || [
+      { title: "Buy Bike 🚲", target: 50000, saved: 5000 },
+      { title: "Emergency Fund 🛡", target: 10000, saved: 2000 }
+    ]
+  );
 
+  // SAVE GOALS
+  useEffect(() => {
+    localStorage.setItem("goals", JSON.stringify(goals));
+  }, [goals]);
 
-// ADD THIS STATE BELOW PROFILE STATE
-const [goals, setGoals] = useState(
-  JSON.parse(localStorage.getItem("goals")) || [
-    { title: "Buy Bike 🚲", target: 50000, saved: 5000 },
-    { title: "Emergency Fund 🛡", target: 10000, saved: 2000 }
-  ]
-);
+  const updateGoal = (index, value) => {
+    const updated = [...goals];
+    updated[index].saved = Number(value);
+    setGoals(updated);
+  };
 
-// SAVE GOALS
-useEffect(() => {
-  localStorage.setItem("goals", JSON.stringify(goals));
-}, [goals]);
+  // 🔥 LIVE TIMER UPDATE (ONLY THIS REMAINS)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const totalSeconds = getTotalTime();
+      setMinutes(Math.floor(totalSeconds / 60));
+    }, 1000);
 
-const updateGoal = (index, value) => {
-  const updated = [...goals];
-  updated[index].saved = Number(value);
-  setGoals(updated);
-};
-
-
-
-// 🔥 LIVE TIMER UPDATE
-useEffect(() => {
-  const interval = setInterval(() => {
-    const totalSeconds = getTotalTime();
-    setMinutes(Math.floor(totalSeconds / 60));
-  }, 1000);
-
-  return () => clearInterval(interval);
-}, []);
-
-
-
+    return () => clearInterval(interval);
+  }, []);
 
   // SAVE WEEKLY
   useEffect(() => {
@@ -92,7 +85,6 @@ useEffect(() => {
         <p>Welcome back, {name || "Investor"}</p>
       </div>
 
-      {/* TOP */}
       <div className="top-cards">
         <div className="card">⏱ Time <span>{minutes} min</span></div>
         <div className="card">💰 Score <span>{score}</span></div>
@@ -102,10 +94,8 @@ useEffect(() => {
 
       <div className="main-grid">
 
-        {/* LEFT */}
         <div className="left">
 
-          {/* MARKET */}
           <div className="box">
             <h2 className="section-title market-title">📈 Market Overview</h2>
 
@@ -116,7 +106,6 @@ useEffect(() => {
             />
           </div>
 
-          {/* WEEKLY GRAPH */}
           <div className="box">
             <h2 className="section-title">⏱ Weekly Screen Time</h2>
 
@@ -133,7 +122,6 @@ useEffect(() => {
             </div>
           </div>
 
-          {/* PIE */}
           <div className="box pie-flex">
 
             <div className="pie-left">
@@ -156,7 +144,6 @@ useEffect(() => {
 
         </div>
 
-        {/* RIGHT */}
         <div className="right">
 
           <div className="panel">
@@ -179,7 +166,6 @@ useEffect(() => {
             </p>
           </div>
 
-          {/* PROFILE PANEL */}
           <div className="panel profile">
             <h3>👤 Your Profile</h3>
 
@@ -207,41 +193,38 @@ useEffect(() => {
             <p>Stay consistent. You're building strong discipline.</p>
           </div>
 
-{/* GOALS PANEL */}
-<div className="panel goals">
-  <h3>🎯 Financial Goals</h3>
+          <div className="panel goals">
+            <h3>🎯 Financial Goals</h3>
 
-  {goals.map((goal, i) => {
-    const percent = Math.min((goal.saved / goal.target) * 100, 100);
+            {goals.map((goal, i) => {
+              const percent = Math.min((goal.saved / goal.target) * 100, 100);
 
-    return (
-      <div key={i} className="goal-item">
+              return (
+                <div key={i} className="goal-item">
 
-        <div className="goal-top">
-          <span>{goal.title}</span>
-          <span>₹{goal.saved} / ₹{goal.target}</span>
-        </div>
+                  <div className="goal-top">
+                    <span>{goal.title}</span>
+                    <span>₹{goal.saved} / ₹{goal.target}</span>
+                  </div>
 
-        <div className="progress-bar">
-          <div
-            className="progress-fill"
-            style={{ width: `${percent}%` }}
-          ></div>
-        </div>
+                  <div className="progress-bar">
+                    <div
+                      className="progress-fill"
+                      style={{ width: `${percent}%` }}
+                    ></div>
+                  </div>
 
-        <input
-          type="number"
-          className="input"
-          placeholder="Update saved amount"
-          value={goal.saved}
-          onChange={(e) => updateGoal(i, e.target.value)}
-        />
+                  <input
+                    type="number"
+                    className="input"
+                    value={goal.saved}
+                    onChange={(e) => updateGoal(i, e.target.value)}
+                  />
 
-      </div>
-    );
-  })}
-</div>
-
+                </div>
+              );
+            })}
+          </div>
 
         </div>
 

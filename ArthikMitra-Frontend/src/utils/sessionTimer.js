@@ -13,7 +13,6 @@ export const stopSession = () => {
   const total = previous + duration;
 
   localStorage.setItem("totalTime", total);
-
   localStorage.removeItem("startTime");
 
   return total;

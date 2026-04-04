@@ -6,6 +6,10 @@ require("dotenv").config();
 // ==============================
 // IMPORTS
 // ==============================
+
+const challengeRoutes = require("./routes/challengeRoutes");
+
+
 const express = require("express");
 const cors = require("cors");
 const connectDB = require("./config/db");
@@ -61,6 +65,14 @@ console.log("✅ Groq Key Loaded");
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
+
+// ==============================
+// ROUTES
+// ==============================
+app.use("/api", challengeRoutes);
+
+
+
 
 // ==============================
 // ROOT ROUTE

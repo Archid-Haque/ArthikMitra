@@ -36,26 +36,20 @@ function StudentLogin() {
     try {
       const decoded = jwtDecode(credentialResponse.credential);
 
-      // Send Google user to backend
       const res = await axios.post("http://localhost:5000/api/auth/google", {
         name: decoded.name,
         email: decoded.email,
         picture: decoded.picture,
       });
 
-      // Save login session
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.user));
 
-      // Notify Navbar to update instantly
       window.dispatchEvent(new Event("authChanged"));
 
       alert("✅ Google Login Successful!");
 
-// 🔥 ADD THIS LINE
-startSession();
-
-navigate("/ai-coach");
+      navigate("/ai-coach");
 
     } catch (err) {
       console.error("Google Login Failed:", err);
@@ -83,7 +77,6 @@ navigate("/ai-coach");
       setLoading(true);
 
       if (isRegister) {
-        // REGISTER CALL
         await registerUser({
           name: form.name,
           email: form.email,
@@ -100,13 +93,11 @@ navigate("/ai-coach");
         });
 
       } else {
-        // LOGIN CALL
         const res = await loginUser({
           email: form.email,
           password: form.password,
         });
 
-        // Save session
         localStorage.setItem("token", res.data.token);
         localStorage.setItem("user", JSON.stringify(res.data.user));
 
@@ -114,10 +105,7 @@ navigate("/ai-coach");
 
         alert("✅ Login Successful!");
 
-// 🔥 ADD THIS LINE
-startSession();
-
-navigate("/ai-coach");
+        navigate("/ai-coach");
       }
 
     } catch (err) {
@@ -128,9 +116,6 @@ navigate("/ai-coach");
     }
   };
 
-  // ============================
-  // UI
-  // ============================
   return (
     <div className="login-page">
       <div className="login-card">
@@ -190,14 +175,12 @@ navigate("/ai-coach");
           </button>
         </form>
 
-        {/* ================= GOOGLE BUTTON ================= */}
         <div style={{ marginTop: "22px", display: "flex", justifyContent: "center" }}>
           <GoogleLogin
             onSuccess={handleGoogleSuccess}
             onError={() => console.log("Google Login Failed")}
           />
         </div>
-        {/* ================================================= */}
 
         <div className="login-toggle">
           {isRegister ? (

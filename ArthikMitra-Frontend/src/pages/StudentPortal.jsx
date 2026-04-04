@@ -2,6 +2,8 @@ import "./studentPortal.css";
 import { useNavigate } from "react-router-dom";
 import BackButton from "../components/BackButton";
 
+
+
 function StudentPortal() {
 
   const navigate = useNavigate();
@@ -63,16 +65,20 @@ function StudentPortal() {
           </div>
         </div>
 
-        {/* DAILY CHALLENGE */}
-        <div className="student-card">
-          <div className="card-icon">🔥</div>
-          <h3>Daily Challenge</h3>
-          <p>Complete today's finance mission.</p>
+       {/* DAILY CHALLENGE */}
+<div
+  onClick={() => navigate("/daily-challenge")}
+  className="student-card cursor-pointer hover:scale-105 transition duration-300"
+>
+  <div className="card-icon">🔥</div>
 
-          <div className="card-action">
-            Take Challenge →
-          </div>
-        </div>
+  <h3>Daily Challenge</h3>
+  <p>Complete today's finance mission.</p>
+
+  <div className="card-action text-green-400 font-semibold">
+    Take Challenge →
+  </div>
+</div>
 
         {/* LEADERBOARD */}
         <div className="student-card">
