@@ -16,12 +16,20 @@ import StudentLogin from "./pages/StudentLogin";
 import StudentPortal from "./pages/StudentPortal";
 import Dashboard from "./pages/Dashboard";
 import AICoach from "./pages/AICoach";
-import DailyChallenge from "./pages/DailyChallenge"; // ✅ ADDED
+import DailyChallenge from "./pages/DailyChallenge";
 
 /* ========= GAMES ========= */
 import Games from "./pages/Games";
 import RatRace from "./pages/RatRace";
 import RatRaceGame from "./pages/RatRaceGame";
+import SipSimulator from "./pages/SipSimulator";
+
+/* ========= COIN PAGES (ADDED) ========= */
+import MutualFunds from "./pages/MutualFunds";
+import NPS from "./pages/NPS";
+import FixedDeposit from "./pages/FixedDeposit";
+import Insurance from "./pages/Insurance";
+import SipCalculator from "./pages/SipCalculator";
 
 /* ========= MODULES ========= */
 import SavingBasics from "./pages/modules/SavingBasics";
@@ -36,7 +44,6 @@ import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
 
-  // 🔥 GLOBAL SESSION CONTROL (FIXED)
   useEffect(() => {
 
     const startIfLoggedIn = () => {
@@ -46,13 +53,10 @@ function App() {
       startSession();
     };
 
-    // ✅ run on load
     startIfLoggedIn();
 
-    // ✅ run after login
     window.addEventListener("authChanged", startIfLoggedIn);
 
-    // ✅ handle tab visibility
     const handleVisibility = () => {
       if (document.hidden) {
         stopSession();
@@ -104,7 +108,7 @@ function App() {
           }
         />
 
-        {/* ================= DAILY CHALLENGE (ADDED) ================= */}
+        {/* ================= DAILY CHALLENGE ================= */}
         <Route
           path="/daily-challenge"
           element={
@@ -160,6 +164,62 @@ function App() {
           element={
             <ProtectedRoute>
               <RatRaceGame />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= SIP SIMULATOR ================= */}
+        <Route
+          path="/sip-simulator"
+          element={
+            <ProtectedRoute>
+              <SipSimulator />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ================= COIN PAGES ================= */}
+        <Route
+          path="/mutual-funds"
+          element={
+            <ProtectedRoute>
+              <MutualFunds />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/nps"
+          element={
+            <ProtectedRoute>
+              <NPS />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/fixed-deposit"
+          element={
+            <ProtectedRoute>
+              <FixedDeposit />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/insurance"
+          element={
+            <ProtectedRoute>
+              <Insurance />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/sip-calculator"
+          element={
+            <ProtectedRoute>
+              <SipCalculator />
             </ProtectedRoute>
           }
         />

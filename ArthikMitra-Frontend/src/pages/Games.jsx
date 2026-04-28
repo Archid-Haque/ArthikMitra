@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import "./games.css"; // 👈 LINKED CSS FILE
+import "./games.css";
 
 function Games() {
   const navigate = useNavigate();
@@ -17,6 +17,7 @@ function Games() {
         <div 
           className="game-card"
           onClick={() => navigate("/game/rat-race")}
+          style={{ cursor: "pointer" }}
         >
           <h3>🐭 Escape Rat Race</h3>
           <p>Build assets & escape salary trap</p>
@@ -25,14 +26,17 @@ function Games() {
         <div 
           className="game-card"
           onClick={() => navigate("/game/trading")}
+          style={{ cursor: "pointer" }}
         >
           <h3>📈 Trading Arena</h3>
           <p>Practice stock trading with virtual money</p>
         </div>
 
+        {/* ✅ SIP SIMULATOR FIXED ROUTE */}
         <div 
           className="game-card"
-          onClick={() => navigate("/game/sip")}
+          onClick={() => navigate("/sip-simulator")}
+          style={{ cursor: "pointer" }}
         >
           <h3>💰 SIP Simulator</h3>
           <p>Grow wealth through smart investing</p>
